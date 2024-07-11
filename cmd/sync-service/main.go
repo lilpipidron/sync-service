@@ -17,8 +17,8 @@ func main() {
 
 	log.Info("Successfully loaded config", "config", *cfg)
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable",
-		cfg.PostgresHost, cfg.PostgresPort, cfg.PostgresUser, cfg.PostgresDB)
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		cfg.PostgresHost, cfg.PostgresPort, cfg.PostgresUser, cfg.PostgresPassword, cfg.PostgresDB)
 
 	_, err := postgresql.NewPostgresqlStorage(dsn, cfg.PostgresDB)
 	if err != nil {
