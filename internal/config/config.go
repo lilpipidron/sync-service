@@ -7,11 +7,11 @@ type Config struct {
 }
 
 type PostgresConfig struct {
-	postgresUser     string `env:"POSTGRES_USER,required"`
-	postgresPassword string `env:"POSTGRES_PASSWORD,required"`
-	postgresPort     int    `env:"POSTGRES_PORT,required"`
-	postgresDB       string `env:"POSTGRES_DB,required"`
-	postgresHost     string `env:"POSTGRES_HOST,required"`
+	PostgresUser     string `env:"POSTGRES_USER,required"`
+	PostgresPassword string `env:"POSTGRES_PASSWORD,required"`
+	PostgresPort     int    `env:"POSTGRES_PORT,required"`
+	PostgresDB       string `env:"POSTGRES_DB,required"`
+	PostgresHost     string `env:"POSTGRES_HOST,required"`
 }
 
 func MustLoad() *Config {
