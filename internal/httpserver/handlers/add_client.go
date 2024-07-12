@@ -10,6 +10,9 @@ import (
 	"time"
 )
 
+// AddClientHandler adds a new client to the database based on the information provided in the request body.
+// If the request cannot be decoded, it logs an error and returns a 400 status code.
+// Returns a 500 status code and logs an error if there is an issue adding the client to the database.
 func AddClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var addClientRequest requests.AddClientRequest

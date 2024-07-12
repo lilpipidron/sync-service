@@ -9,6 +9,9 @@ import (
 	"net/http"
 )
 
+// DeleteClientHandler deletes a client from the database based on the client ID provided in the request URL.
+// If the client is not found, it returns a 404 status code and an error message.
+// Returns a 500 status code and logs an error if there is an issue deleting the client from the database.
 func DeleteClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		clientID := chi.URLParam(r, "id")

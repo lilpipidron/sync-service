@@ -42,6 +42,10 @@ func NewPodDeployer(cfg *config.Config) *PodDeployer {
 	}
 }
 
+// CreatePod creates a new pod in Kubernetes with the specified name.
+// It configures the pod with a basic container running a specified image,
+// and sets resource limits for CPU and memory.
+// Returns an error if pod creation fails.
 func (p *PodDeployer) CreatePod(name string) error {
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
@@ -71,10 +75,14 @@ func (p *PodDeployer) CreatePod(name string) error {
 	return err
 }
 
+// DeletePod deletes a pod with the specified name from Kubernetes.
+// Returns an error if pod deletion fails.
 func (p *PodDeployer) DeletePod(name string) error {
 	return p.Client.CoreV1().Pods(p.Namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
 }
 
+// GetPodList retrieves a list of pod names currently running in the specified namespace in Kubernetes.
+// Returns a slice of pod names and an error if retrieval fails.
 func (p *PodDeployer) GetPodList() ([]string, error) {
 	pods, err := p.Client.CoreV1().Pods(p.Namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {

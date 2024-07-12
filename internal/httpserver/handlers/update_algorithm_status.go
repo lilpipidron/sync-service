@@ -10,6 +10,11 @@ import (
 	"reflect"
 )
 
+// UpdateAlgorithmStatusHandler handles HTTP requests to update algorithm status information in the database.
+// It decodes the update request, retrieves the algorithm status from the database,
+// updates its fields based on the request, saves the updated status back to the database,
+// and responds with the updated status information if successful.
+
 func UpdateAlgorithmStatusHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var updateAlgorithmStatusRequest requests.UpdateAlgorithmStatusRequest

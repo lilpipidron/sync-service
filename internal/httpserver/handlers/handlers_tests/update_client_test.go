@@ -41,7 +41,7 @@ func TestUpdateClientHandler(t *testing.T) {
 		Image:       "updated-image",
 		CPU:         "2",
 		Memory:      "2Gi",
-		NeedRestart: false,
+		NeedRestart: true,
 	}
 
 	requestBody, err := json.Marshal(updateClientRequest)

@@ -12,6 +12,10 @@ import (
 	"github.com/lilpipidron/sync-service/internal/storages/postgresql"
 )
 
+// UpdateClientHandler handles HTTP requests to update client information in the database.
+// It decodes the update request, retrieves the client from the database,
+// updates its fields based on the request, saves the updated client back to the database,
+// and responds with the updated client information if successful.
 func UpdateClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var updateClientRequest requests.UpdateClientRequest
