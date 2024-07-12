@@ -5,6 +5,11 @@ import "github.com/caarlos0/env/v11"
 type Config struct {
 	PostgresConfig
 	ServiceConfig
+	KubernetesConfig
+}
+
+type KubernetesConfig struct {
+	Namespace string `env:"KUBERNETES_NAMESPACE"`
 }
 
 type ServiceConfig struct {
