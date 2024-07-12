@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
+	"github.com/lilpipidron/sync-service/internal/checker"
 	"github.com/lilpipidron/sync-service/internal/config"
 	"github.com/lilpipidron/sync-service/internal/deployer"
 	"github.com/lilpipidron/sync-service/internal/httpserver/handlers"
@@ -33,7 +34,9 @@ func main() {
 
 	log.Info("Successfully connected to postgresql storage")
 
-	deployer.NewPodDeployer(cfg)
+	podDeployer := deployer.NewPodDeployer(cfg)
+
+	go checker.StatusChecker(podDeployer, storage)
 
 	router := chi.NewRouter()
 
