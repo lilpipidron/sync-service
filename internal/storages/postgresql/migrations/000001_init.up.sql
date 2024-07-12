@@ -1,5 +1,5 @@
 create table if not exists users (
-    id bigint primary key,
+    id serial primary key ,
     client_name varchar,
     version int,
     image varchar,
@@ -13,6 +13,6 @@ create table if not exists users (
 );
 
 create table if not exists AlgorithmStatus (
-  id bigint primary key,
+  id serial primary key,
   client_id bigint references users (id) on delete cascade
 );

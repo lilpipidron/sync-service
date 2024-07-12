@@ -4,6 +4,12 @@ import "github.com/caarlos0/env/v11"
 
 type Config struct {
 	PostgresConfig
+	ServiceConfig
+}
+
+type ServiceConfig struct {
+	ServiceHost string `env:"SERVICE_HOST,required"`
+	ServicePort int    `env:"SERVICE_PORT,required"`
 }
 
 type PostgresConfig struct {

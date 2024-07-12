@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Client struct {
-	ID          int64     `gorm:"primary_key;column:id"`
+	ID          int64     `gorm:"primary_key;auto_increment;column:id"`
 	ClientName  string    `gorm:"column:client_name"`
 	Version     int       `gorm:"column:version"`
 	Image       string    `gorm:"column:image"`
