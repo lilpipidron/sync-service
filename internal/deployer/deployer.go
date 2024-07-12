@@ -18,8 +18,8 @@ type Deployer interface {
 }
 
 type PodDeployer struct {
-	client    *kubernetes.Clientset
-	namespace string
+	Client    kubernetes.Interface
+	Namespace string
 }
 
 func NewPodDeployer(cfg *config.Config) *PodDeployer {
@@ -37,8 +37,8 @@ func NewPodDeployer(cfg *config.Config) *PodDeployer {
 	}
 
 	return &PodDeployer{
-		client:    clientset,
-		namespace: cfg.Namespace,
+		Client:    clientset,
+		Namespace: cfg.Namespace,
 	}
 }
 
@@ -67,16 +67,16 @@ func (p *PodDeployer) CreatePod(name string) error {
 		},
 	}
 
-	_, err := p.client.CoreV1().Pods(p.namespace).Create(context.TODO(), pod, metav1.CreateOptions{})
+	_, err := p.Client.CoreV1().Pods(p.Namespace).Create(context.TODO(), pod, metav1.CreateOptions{})
 	return err
 }
 
 func (p *PodDeployer) DeletePod(name string) error {
-	return p.client.CoreV1().Pods(p.namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
+	return p.Client.CoreV1().Pods(p.Namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
 }
 
 func (p *PodDeployer) GetPodList() ([]string, error) {
-	pods, err := p.client.CoreV1().Pods(p.namespace).List(context.TODO(), metav1.ListOptions{})
+	pods, err := p.Client.CoreV1().Pods(p.Namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
