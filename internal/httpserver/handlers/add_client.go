@@ -7,6 +7,7 @@ import (
 	"github.com/lilpipidron/sync-service/internal/models"
 	"github.com/lilpipidron/sync-service/internal/storages/postgresql"
 	"net/http"
+	"time"
 )
 
 func AddClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
@@ -26,9 +27,9 @@ func AddClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
 			CPU:         addClientRequest.CPU,
 			Memory:      addClientRequest.Memory,
 			NeedRestart: addClientRequest.NeedRestart,
-			SpawnedAt:   addClientRequest.SpawnedAt,
-			CreatedAt:   addClientRequest.CreatedAt,
-			UpdatedAt:   addClientRequest.UpdatedAt,
+			SpawnedAt:   time.Time{},
+			CreatedAt:   time.Now(),
+			UpdatedAt:   time.Now(),
 		}
 
 		if err := storage.DB.Create(&client).Error; err != nil {

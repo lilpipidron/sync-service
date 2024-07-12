@@ -40,7 +40,7 @@ func main() {
 	router.Use(middleware.URLFormat)
 
 	router.Post("/addClient", handlers.AddClientHandler(storage))
-	router.Put("/updateClient", nil)
+	router.Put("/updateClient", handlers.UpdateClientHandler(storage))
 	router.Delete("/deleteClient/{id}", handlers.DeleteClientHandler(storage))
 	router.Put("/updateAlgorithmStatus", nil)
 

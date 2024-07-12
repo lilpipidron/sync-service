@@ -16,7 +16,7 @@ func DeleteClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc
 		if err := storage.DB.First(&client, clientID).Error; err != nil {
 			render.Status(r, http.StatusNotFound)
 			render.JSON(w, r, map[string]string{"error": err.Error()})
-			log.Error("error finding client", "error", err)
+			log.Error("Client not found", "error", err)
 			return
 		}
 
