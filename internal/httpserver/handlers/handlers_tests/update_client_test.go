@@ -68,5 +68,5 @@ func TestUpdateClientHandler(t *testing.T) {
 	assert.Equal(t, "updated-image", updatedClient.Image)
 	assert.Equal(t, "2", updatedClient.CPU)
 	assert.Equal(t, "2Gi", updatedClient.Memory)
-	assert.Equal(t, false, updatedClient.NeedRestart)
+	assert.Equal(t, true, updatedClient.NeedRestart)
 }
