@@ -41,7 +41,7 @@ func main() {
 
 	router.Post("/addClient", handlers.AddClientHandler(storage))
 	router.Put("/updateClient", nil)
-	router.Delete("/deleteClient/{id}", nil)
+	router.Delete("/deleteClient/{id}", handlers.DeleteClientHandler(storage))
 	router.Put("/updateAlgorithmStatus", nil)
 
 	addr := cfg.ServiceHost + ":" + strconv.Itoa(cfg.ServicePort)
