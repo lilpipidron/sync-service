@@ -42,7 +42,7 @@ func main() {
 	router.Post("/addClient", handlers.AddClientHandler(storage))
 	router.Put("/updateClient", handlers.UpdateClientHandler(storage))
 	router.Delete("/deleteClient/{id}", handlers.DeleteClientHandler(storage))
-	router.Put("/updateAlgorithmStatus", nil)
+	router.Put("/updateAlgorithmStatus", handlers.UpdateAlgorithmStatusHandler(storage))
 
 	addr := cfg.ServiceHost + ":" + strconv.Itoa(cfg.ServicePort)
 	if err = http.ListenAndServe(addr, router); err != nil {

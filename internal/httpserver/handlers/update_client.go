@@ -27,7 +27,7 @@ func UpdateClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc
 		client := models.Client{
 			UpdatedAt: time.Now(),
 		}
-		if err := storage.DB.Where("user_id = ?", updateClientRequest.ID).First(&client).Error; err != nil {
+		if err := storage.DB.Where("id = ?", updateClientRequest.ID).First(&client).Error; err != nil {
 			render.Status(r, http.StatusNotFound)
 			render.JSON(w, r, nil)
 			log.Error("Client not found", "error", err)
