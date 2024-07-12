@@ -27,6 +27,7 @@ func DeleteClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc
 		}
 
 		render.Status(r, http.StatusNoContent)
+		render.JSON(w, r, nil)
 		log.Info("client deleted", "clientID", clientID)
 	}
 }

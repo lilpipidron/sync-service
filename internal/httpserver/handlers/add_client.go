@@ -37,7 +37,9 @@ func AddClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
 			log.Error("Failed to add client", "error", err)
 			return
 		}
-		render.JSON(w, r, http.StatusCreated)
+
+		render.Status(r, http.StatusCreated)
+		render.JSON(w, r, nil)
 
 		log.Info("Added client", "client", client)
 	}

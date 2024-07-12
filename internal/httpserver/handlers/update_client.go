@@ -1,14 +1,15 @@
 package handlers
 
 import (
+	"net/http"
+	"reflect"
+	"time"
+
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/render"
 	"github.com/lilpipidron/sync-service/internal/httpserver/requests"
 	"github.com/lilpipidron/sync-service/internal/models"
 	"github.com/lilpipidron/sync-service/internal/storages/postgresql"
-	"net/http"
-	"reflect"
-	"time"
 )
 
 func UpdateClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
@@ -34,18 +35,30 @@ func UpdateClientHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc
 			return
 		}
 
-		clientVal := reflect.ValueOf(client).Elem()
+		clientVal := reflect.ValueOf(&client).Elem()
 		updateClientVal := reflect.ValueOf(req).Elem()
 		for i := 0; i < updateClientVal.NumField(); i++ {
 			field := updateClientVal.Field(i)
 			fieldName := updateClientVal.Type().Field(i).Name
 
-			if field.Kind() == reflect.String && field.String() != "" {
-				clientField := clientVal.FieldByName(fieldName)
+			clientField := clientVal.FieldByName(fieldName)
+			if !clientField.IsValid() || !clientField.CanSet() {
+				continue
+			}
 
-				if clientField.IsValid() && clientField.CanSet() {
+			switch field.Kind() {
+			case reflect.String:
+				if field.String() != "" {
 					clientField.SetString(field.String())
 				}
+			case reflect.Bool:
+				clientField.SetBool(field.Bool())
+			case reflect.Int64:
+				clientField.SetInt(field.Int())
+			case reflect.Int:
+				clientField.SetInt(field.Int())
+			default:
+				panic("unhandled default case")
 			}
 		}
 

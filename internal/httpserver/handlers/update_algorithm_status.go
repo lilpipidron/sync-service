@@ -8,7 +8,6 @@ import (
 	"github.com/lilpipidron/sync-service/internal/storages/postgresql"
 	"net/http"
 	"reflect"
-	"time"
 )
 
 func UpdateAlgorithmStatusHandler(storage *postgresql.PostgresqlStorage) http.HandlerFunc {
@@ -24,9 +23,7 @@ func UpdateAlgorithmStatusHandler(storage *postgresql.PostgresqlStorage) http.Ha
 
 		log.Info("Request body", "body", updateAlgorithmStatusRequest)
 
-		algorithmStatus := models.Client{
-			UpdatedAt: time.Now(),
-		}
+		algorithmStatus := models.AlgorithmStatus{}
 		if err := storage.DB.Where("id = ?", updateAlgorithmStatusRequest.ID).First(&algorithmStatus).Error; err != nil {
 			render.Status(r, http.StatusNotFound)
 			render.JSON(w, r, nil)
@@ -34,18 +31,30 @@ func UpdateAlgorithmStatusHandler(storage *postgresql.PostgresqlStorage) http.Ha
 			return
 		}
 
-		algorithmVal := reflect.ValueOf(algorithmStatus).Elem()
-		updateAlgorithmVal := reflect.ValueOf(req).Elem()
+		algorithmVal := reflect.ValueOf(&algorithmStatus).Elem()
+		updateAlgorithmVal := reflect.ValueOf(updateAlgorithmStatusRequest)
+
 		for i := 0; i < updateAlgorithmVal.NumField(); i++ {
 			field := updateAlgorithmVal.Field(i)
 			fieldName := updateAlgorithmVal.Type().Field(i).Name
 
-			if field.Kind() == reflect.String && field.String() != "" {
-				clientField := algorithmVal.FieldByName(fieldName)
+			algorithmField := algorithmVal.FieldByName(fieldName)
+			if !algorithmField.IsValid() || !algorithmField.CanSet() {
+				continue
+			}
 
-				if clientField.IsValid() && clientField.CanSet() {
-					clientField.SetString(field.String())
+			switch field.Kind() {
+			case reflect.String:
+				if field.String() != "" {
+					algorithmField.SetString(field.String())
 				}
+			case reflect.Bool:
+				algorithmField.SetBool(field.Bool())
+			case reflect.Int64:
+				algorithmField.SetInt(field.Int())
+
+			default:
+				panic("unhandled default case")
 			}
 		}
 
